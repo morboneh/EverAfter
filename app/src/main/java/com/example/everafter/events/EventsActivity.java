@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +33,7 @@ public class EventsActivity extends ItemsListActivity {
     protected DatabaseHelper dbHelper;
     protected int userId;
     private int subjectListId;
+    private TextView textViewSubjectListName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +44,28 @@ public class EventsActivity extends ItemsListActivity {
         super.onCreate(savedInstanceState);
 
         loadItems();
+
+        textViewSubjectListName = findViewById(R.id.textViewSubjectListName);
+        String subjectName = getSubjectListName();
+        textViewSubjectListName.setText(subjectName);
     }
 
+    public String getSubjectListName(){
+        String subjectListName = "";
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String query = "SELECT list_name FROM subject_lists WHERE id = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(subjectListId)});
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                int columnIndex = cursor.getColumnIndex("list_name");
+                if (columnIndex != -1) {
+                    subjectListName = cursor.getString(columnIndex);
+                }
+            }
+            cursor.close();
+        }
+        return subjectListName;
+    }
     @Override
     protected int getListViewId() {
         return R.id.listViewEvents;

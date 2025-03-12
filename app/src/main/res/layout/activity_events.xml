@@ -6,6 +6,16 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- TextView to display the selected subject list name -->
+    <TextView
+        android:id="@+id/textViewSubjectListName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/black"/>
+
     <!-- ListView to display events of the selected subject list -->
     <ListView
         android:id="@+id/listViewEvents"
